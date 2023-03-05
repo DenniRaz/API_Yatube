@@ -43,3 +43,46 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
+
+Использованные технологии:
+
+```
+Django REST Framework
+```
+
+Примеры запросов к API:
+
+POST-запрос
+
+```
+http://127.0.0.1:8000/api/v1/jwt/create/
+```
+
+Request samples
+
+```
+{
+    "username": "string",
+    "password": "string"
+}
+```
+
+GET-запрос
+
+```
+http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+```
+
+Response samples
+
+```
+[
+    {
+        "id": 0,
+        "author": "string",
+        "text": "string",
+        "created": "2019-08-24T14:15:22Z",
+        "post": 0
+    }
+]
+```

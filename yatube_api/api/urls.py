@@ -10,8 +10,8 @@ router.register(
     CommentViewSet,
     basename='comments'
 )
-router.register(r'posts', PostViewSet)
-router.register(r'groups', GroupViewSet)
+router.register(r'posts', PostViewSet, basename='posts')
+router.register(r'groups', GroupViewSet, basename='groups')
 
 urlpatterns = [
     path('v1/', include('djoser.urls')),

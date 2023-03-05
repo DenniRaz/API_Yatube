@@ -6,15 +6,12 @@ from api.serializers import (
     PostSerializer
 )
 
-from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 
 from posts.models import Group, Post
 
 from rest_framework import filters, generics, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
-
-User = get_user_model()
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -52,7 +49,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 class FollowViewSet(generics.ListCreateAPIView):
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('^following__username',)
+    search_fields = ('following__username',)
 
     def get_queryset(self):
         return self.request.user.follower.select_related('user')
