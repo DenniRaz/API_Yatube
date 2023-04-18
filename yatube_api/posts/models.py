@@ -5,16 +5,17 @@ User = get_user_model()
 
 
 class Group(models.Model):
+    """Модель создание групп для постов."""
     title = models.CharField(
-        verbose_name='Название',
         max_length=200,
+        verbose_name='Название группы',
     )
     slug = models.SlugField(
-        verbose_name='Уникальный идентификатор',
         unique=True,
+        verbose_name='Уникальный идентификатор группы',
     )
     description = models.TextField(
-        verbose_name='Описание',
+        verbose_name='Описание группы',
     )
 
     def __str__(self):
@@ -22,31 +23,33 @@ class Group(models.Model):
 
 
 class Post(models.Model):
+    """Модель создание постов."""
     text = models.TextField(
-        verbose_name='Текст',
+        verbose_name='Текст поста',
     )
     pub_date = models.DateTimeField(
-        verbose_name='Дата публикации',
         auto_now_add=True,
+        verbose_name='Дата публикации поста',
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='posts',
-        verbose_name='Автор',
+        verbose_name='Автор поста',
     )
     image = models.ImageField(
-        verbose_name='Изображение',
         upload_to='posts/%Y/%m/%d/',
-        null=True,
         blank=True,
+        null=True,
+        verbose_name='Изображение поста',
     )
     group = models.ForeignKey(
         Group,
         on_delete=models.SET_NULL,
         related_name='posts',
-        verbose_name='Группа',
+        blank=True,
         null=True,
+        verbose_name='Группа поста',
     )
 
     def __str__(self):
@@ -54,6 +57,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Модель комментариев к постам."""
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -64,19 +68,23 @@ class Comment(models.Model):
         Post,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='Пост',
+        verbose_name='Комментируемый пост',
     )
     text = models.TextField(
-        verbose_name='Текст',
+        verbose_name='Текст комментария',
     )
     created = models.DateTimeField(
-        verbose_name='Дата добавления',
         auto_now_add=True,
         db_index=True,
+        verbose_name='Дата добавления комментария',
     )
+
+    def __str__(self):
+        return self.text
 
 
 class Follow(models.Model):
+    """Модель подписок на авторов."""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

@@ -1,5 +1,5 @@
-from api.permissions import AuthorOrReadOnly
-from api.serializers import (
+from .permissions import AuthorOrReadOnly
+from .serializers import (
     CommentSerializer,
     FollowSerializer,
     GroupSerializer,
@@ -15,6 +15,7 @@ from rest_framework.pagination import LimitOffsetPagination
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    """ViewSet модели Post."""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     pagination_class = LimitOffsetPagination
@@ -25,6 +26,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """ViewSet модели Comment."""
     serializer_class = CommentSerializer
     permission_classes = (AuthorOrReadOnly,)
 
@@ -41,12 +43,14 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
+    """ViewSet модели Group."""
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (permissions.AllowAny,)
 
 
 class FollowViewSet(generics.ListCreateAPIView):
+    """ViewSet модели Follow."""
     serializer_class = FollowSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)

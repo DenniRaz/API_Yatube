@@ -11,6 +11,8 @@ User = get_user_model()
 
 
 class Base64ImageField(serializers.ImageField):
+    """Serializer поля image."""
+
     def to_internal_value(self, data):
         if isinstance(data, str) or data.startwith('data:image'):
             format, imgstr = data.split(';base64,')
@@ -20,6 +22,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """Serializer модели Post."""
     author = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
@@ -30,31 +33,35 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ('id', 'author', 'text', 'pub_date', 'image', 'group',)
+        fields = ('id', 'author', 'text', 'pub_date', 'image', 'group')
         model = Post
-        read_only_fields = ('id', 'pub_date',)
+        read_only_fields = ('id', 'pub_date')
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """Serializer модели Comment."""
     author = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
     )
 
     class Meta:
-        fields = ('id', 'author', 'text', 'created', 'post',)
+        fields = ('id', 'author', 'text', 'created', 'post')
         model = Comment
-        read_only_fields = ('id', 'created', 'post',)
+        read_only_fields = ('id', 'created', 'post')
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    """Serializer модели Group."""
+
     class Meta:
-        fields = ('id', 'title', 'slug', 'description',)
+        fields = ('id', 'title', 'slug', 'description')
         model = Group
-        read_only_fields = ('id', 'title', 'slug', 'description',)
+        read_only_fields = ('id', 'title', 'slug', 'description')
 
 
 class FollowSerializer(serializers.ModelSerializer):
+    """Serializer модели Follow."""
     user = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
@@ -66,7 +73,7 @@ class FollowSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ('user', 'following',)
+        fields = ('user', 'following')
         model = Follow
         validators = [
             serializers.UniqueTogetherValidator(
